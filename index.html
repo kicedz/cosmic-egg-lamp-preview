@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="The Cosmic Egg: a serpent-wrapped egg pendant lamp. Renders, scale, and an animated print, paint and assembly guide.">
+</head>
+<body>
+<title>The Cosmic Egg</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an antiquarian specimen catalogue. Numbered figures on a stone ground matched to the
+   studio wall of the renders, one live plate (the 3D build stage), measurements set in mono. */
+:root {
+  --ground: #d6d2cd;
+  --ground-deep: #ccc7c1;
+  --paper: #e4e0db;
+  --ink: #1f1c1a;
+  --ink-soft: #5b544e;
+  --rule: rgba(31, 28, 26, .2);
+  --glow: #e3874b;
+  --glow-ink: #98471a;
+  --stage: #cfcac4;
+  --font-display: "IM Fell English", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-sc: "IM Fell English SC", "IM Fell English", Georgia, serif;
+  --font-body: "Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --measure: 64ch;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #171412; --ground-deep: #1e1a17; --paper: #24201c; --ink: #ece5dc; --ink-soft: #a99f95;
+    --rule: rgba(236, 229, 220, .17); --glow: #f0a066; --glow-ink: #f4b07e; --stage: #1c1815; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #171412; --ground-deep: #1e1a17; --paper: #24201c; --ink: #ece5dc; --ink-soft: #a99f95;
+  --rule: rgba(236, 229, 220, .17); --glow: #f0a066; --glow-ink: #f4b07e; --stage: #1c1815; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font: 400 1rem/1.62 var(--font-body);
+  padding-inline: clamp(16px, 4vw, 56px);
+  padding-block: 0 4rem;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--glow-ink); text-underline-offset: .18em; }
+:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; }
+.wrap { max-width: 1240px; margin-inline: auto; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(2rem, 4.2vw, 3.1rem); line-height: 1.02; }
+h3 { font-size: 1.35rem; line-height: 1.2; }
+p { margin: 0; max-width: var(--measure); }
+.eyebrow { font-family: var(--font-sc); font-size: 1.05rem; letter-spacing: .06em; color: var(--ink-soft); }
+.mono { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+.lede { font-size: 1.14rem; color: var(--ink); }
+.muted { color: var(--ink-soft); }
+figcaption, .caption { font-family: var(--font-display); font-style: italic; color: var(--ink-soft); font-size: .98rem; line-height: 1.35; }
+
+/* masthead */
+.masthead { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; justify-content: space-between; align-items: baseline;
+  padding-block: 1.1rem; border-bottom: 1px solid var(--rule); }
+.masthead .mark { font-family: var(--font-sc); font-size: 1.1rem; letter-spacing: .05em; }
+.masthead nav { display: flex; flex-wrap: wrap; gap: .25rem 1.1rem; font-size: .9rem; }
+.masthead nav a { color: var(--ink-soft); text-decoration: none; }
+.masthead nav a:hover { color: var(--ink); text-decoration: underline; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(1.5rem, 4vw, 4rem); align-items: center;
+  padding-block: clamp(2rem, 5vw, 4rem) clamp(2rem, 4vw, 3rem); }
+.hero-text { display: grid; gap: 1.4rem; min-width: 0; }
+.hero h1 { font-size: clamp(3.3rem, 8.4vw, 7.2rem); line-height: .9; letter-spacing: -.012em; }
+.hero h1 em { font-style: italic; color: var(--glow-ink); }
+.specs { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0 1.4rem; margin: .4rem 0 0; max-width: 34rem; }
+.specs dt, .specs dd { padding-block: .48rem; border-top: 1px solid var(--rule); margin: 0; }
+.specs dt { font-family: var(--font-sc); letter-spacing: .04em; color: var(--ink-soft); }
+.specs dd { font-family: var(--font-data); font-size: .92rem; font-variant-numeric: tabular-nums; }
+.hero-figure { margin: 0; width: clamp(240px, 33vw, 440px); display: grid; gap: .6rem; justify-items: center; }
+.hero-figure img {
+  width: 100%; aspect-ratio: 9 / 16; object-fit: cover;
+  -webkit-mask-image: radial-gradient(ellipse 62% 56% at 50% 46%, #000 62%, transparent 100%);
+          mask-image: radial-gradient(ellipse 62% 56% at 50% 46%, #000 62%, transparent 100%);
+}
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-figure { width: min(100%, 360px); justify-self: center; order: -1; }
+}
+
+section { padding-block: clamp(2.5rem, 6vw, 4.5rem); border-top: 1px solid var(--rule); }
+.section-head { display: grid; gap: .55rem; margin-bottom: clamp(1.4rem, 3vw, 2.2rem); }
+
+/* idea */
+.idea { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: start; }
+.idea .copy { display: grid; gap: 1rem; }
+.motif-strip { margin: 0; display: grid; gap: .55rem; }
+.motif-strip .band { height: clamp(90px, 13vw, 150px); border-radius: 3px; background-color: var(--paper);
+  background-size: auto 200%; background-position: 0 30%; background-repeat: repeat-x; }
+@media (max-width: 760px) { .idea { grid-template-columns: 1fr; } }
+
+/* plates */
+.plates { display: flex; flex-wrap: wrap; gap: 14px; }
+.plate { margin: 0; flex: var(--ar) 1 calc(var(--ar) * 190px); min-width: 0; display: grid; gap: .5rem; align-content: start; }
+.plate img { width: 100%; aspect-ratio: var(--ar); object-fit: cover; outline: 1px solid var(--rule); outline-offset: -1px; }
+.plate.wide { flex-basis: 100%; }
+
+/* scale */
+.scale { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: start; }
+.scale .copy { display: grid; gap: 1rem; }
+.drawing { margin: 0; display: grid; gap: .5rem; }
+.drawing svg { width: 100%; height: auto; display: block; }
+.rules { list-style: none; padding: 0; margin: .4rem 0 0; display: grid; gap: 0; max-width: var(--measure); }
+.rules li { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: 1rem; padding-block: .6rem; border-top: 1px solid var(--rule); }
+.rules li span:first-child { font-family: var(--font-data); font-size: .9rem; font-variant-numeric: tabular-nums; }
+@media (max-width: 860px) { .scale { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .rules li { grid-template-columns: 1fr; gap: .1rem; } }
+svg .ink { stroke: var(--ink); fill: none; }
+svg .soft { stroke: var(--ink-soft); fill: none; }
+svg .fill-ground { fill: var(--ground-deep); }
+svg .fill-ink { fill: var(--ink); }
+svg .glass { fill: var(--glow); fill-opacity: .55; stroke: var(--ink); }
+svg .serpent { stroke: var(--ink); fill: none; stroke-linecap: round; stroke-linejoin: round; }
+svg .serpent-back { stroke: var(--ink-soft); fill: none; stroke-linecap: round; stroke-linejoin: round; opacity: .55; }
+svg text { font-family: var(--font-data); fill: var(--ink-soft); }
+svg .lbl-strong { fill: var(--ink); }
+svg .hatch { stroke: var(--ink-soft); }
+
+/* build stage */
+.build { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(1.25rem, 3vw, 2.5rem); align-items: start; }
+.stage-col { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); display: grid; gap: .7rem; }
+.stage { position: relative; aspect-ratio: 4 / 4.4; max-height: 78vh; width: 100%; border: 1px solid var(--rule);
+  border-radius: 4px; overflow: hidden; background: var(--stage); }
+.stage canvas { width: 100%; height: 100%; display: block; touch-action: none; }
+.stage-label { position: absolute; left: .8rem; top: .7rem; right: .8rem; display: flex; gap: .7rem; align-items: baseline;
+  font-family: var(--font-data); font-size: .8rem; color: var(--ink-soft); pointer-events: none; }
+.stage-label b { color: var(--ink); font-weight: 500; }
+.stage-hint { position: absolute; right: .8rem; bottom: .6rem; font-family: var(--font-data); font-size: .72rem; color: var(--ink-soft); pointer-events: none; }
+.stage-fallback { position: absolute; inset: 0; display: grid; place-content: center; gap: .6rem; padding: 1.5rem; text-align: center; }
+.stage-fallback img { max-height: 60%; margin-inline: auto; }
+.controls { display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; }
+.controls button, .bulb-play {
+  font: 500 .88rem/1 var(--font-body); color: var(--ink); background: var(--paper); border: 1px solid var(--rule);
+  border-radius: 999px; padding: .62rem .95rem; cursor: pointer; display: inline-flex; gap: .45rem; align-items: center;
+}
+.controls button:hover, .bulb-play:hover { border-color: var(--ink-soft); }
+.controls button[aria-pressed="true"] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+.controls .primary { background: var(--glow); border-color: var(--glow); color: #1f1208; }
+.controls .spacer { flex: 1 1 auto; }
+.controls svg { width: 14px; height: 14px; fill: currentColor; }
+.progress { height: 3px; background: var(--rule); border-radius: 2px; overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; background: var(--glow); }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: none; }
+.steps li { border-top: 1px solid var(--rule); }
+.steps li:last-child { border-bottom: 1px solid var(--rule); }
+.step-btn { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-columns: 2.4rem minmax(0, 1fr);
+  gap: .2rem .9rem; padding: .95rem .6rem .95rem 0; width: 100%; }
+.step-btn:focus-visible { outline: 2px solid var(--glow); outline-offset: -2px; }
+.step-num { font-family: var(--font-data); font-size: .85rem; color: var(--ink-soft); padding-top: .3rem;
+  width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--rule); }
+.step-title { font-family: var(--font-display); font-size: 1.3rem; line-height: 1.2; padding-top: .2rem; }
+.step-body { grid-column: 2; color: var(--ink-soft); font-size: .95rem; display: grid; gap: .45rem; }
+.step-body .need { font-family: var(--font-data); font-size: .8rem; }
+.steps li.active { background: var(--paper); }
+.steps li.active .step-num { background: var(--glow); border-color: var(--glow); color: #1f1208; }
+.steps li.active .step-body { color: var(--ink); }
+@media (max-width: 900px) {
+  .build { grid-template-columns: 1fr; }
+  .stage-col { position: static; order: -1; }
+  .stage { aspect-ratio: 1 / 1.05; }
+}
+
+/* tables */
+.table-wrap { overflow-x: auto; border-top: 1px solid var(--ink); }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: .92rem; }
+th, td { text-align: left; vertical-align: top; padding: .62rem .9rem .62rem 0; border-bottom: 1px solid var(--rule); }
+th { font-family: var(--font-sc); font-weight: 400; letter-spacing: .04em; color: var(--ink-soft); font-size: 1rem; }
+td.num, th.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+td .sub { color: var(--ink-soft); font-size: .86rem; }
+.two-col { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: start; }
+@media (max-width: 860px) { .two-col { grid-template-columns: 1fr; } }
+.kit { margin: 0; display: grid; gap: .5rem; }
+.kit img { outline: 1px solid var(--rule); outline-offset: -1px; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0 1.2rem; margin: 1.2rem 0 1.6rem; }
+.facts div { border-top: 1px solid var(--rule); padding-block: .6rem; display: grid; gap: .1rem; }
+.facts b { font-family: var(--font-data); font-weight: 500; font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+.facts span { color: var(--ink-soft); font-size: .86rem; }
+.hw { list-style: none; padding: 0; margin: 0; display: grid; }
+.hw li { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: .8rem; padding-block: .55rem; border-top: 1px solid var(--rule); }
+.hw li span:first-child { font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink-soft); font-size: .9rem; }
+
+/* bulb */
+.bulb { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: start; }
+.bulb ol { margin: 0; padding-left: 1.3rem; display: grid; gap: .65rem; max-width: var(--measure); }
+.bulb ol li::marker { font-family: var(--font-data); color: var(--ink-soft); }
+@media (max-width: 860px) { .bulb { grid-template-columns: 1fr; } }
+.note { border: 1px solid var(--rule); border-radius: 4px; padding: 1rem 1.15rem; background: var(--paper); display: grid; gap: .5rem; }
+.note h3 { font-size: 1.15rem; }
+
+/* files */
+.tree { font-family: var(--font-data); font-size: .86rem; line-height: 1.7; overflow-x: auto; margin: 0; padding: 1rem 1.15rem;
+  background: var(--paper); border-radius: 4px; border: 1px solid var(--rule); color: var(--ink); }
+.tree .c { color: var(--ink-soft); }
+footer { border-top: 1px solid var(--rule); padding-block: 1.6rem 0; color: var(--ink-soft); font-size: .9rem; display: grid; gap: .4rem; }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <span class="mark">The Cosmic Egg · pendant lamp</span>
+    <nav aria-label="Sections">
+      <a href="#idea">Idea</a><a href="#plates">Renders</a><a href="#scale">Scale</a><a href="#build">Build</a>
+      <a href="#paint">Paint</a><a href="#parts">Parts</a><a href="#bulb">Bulb</a><a href="#files">Files</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-text">
+      <span class="eyebrow">a pendant for the dining table, after the Orphic egg</span>
+      <h1>The Cosmic <em>Egg</em></h1>
+      <p class="lede">A silver serpent coiled around a glowing egg of frosted glass. Modelled in Blender at full size, with the serpent's lowest point 75&nbsp;cm above the table, and split into twenty parts you can print at home.</p>
+      <dl class="specs">
+        <dt>diffuser</dt><dd>Ø 240 × 320 mm</dd>
+        <dt>overall</dt><dd>297 × 582 mm</dd>
+        <dt>hangs</dt><dd>750 mm above the tabletop</dd>
+        <dt>light</dt><dd>E27 LED · ≤ 8 W · 2200–2700 K</dd>
+        <dt>serpent</dt><dd>2.95 m long · Ø 38 mm · 16 segments</dd>
+        <dt>weight</dt><dd>≈ 1.8 kg hanging (estimate)</dd>
+      </dl>
+    </div>
+    <figure class="hero-figure">
+      <img src="assets/hero_on.jpg" width="1080" height="1920" alt="The lamp lit: a chrome serpent coiled around a glowing apricot egg, its tail spiralling up the cable.">
+      <figcaption>Fig. 1. The lamp lit. Studio render, Cycles.</figcaption>
+    </figure>
+  </div>
+
+  <section id="idea" aria-labelledby="idea-h">
+    <div class="idea">
+      <div class="copy">
+        <span class="eyebrow">the idea</span>
+        <h2 id="idea-h">The serpent and the egg</h2>
+        <p>The Orphic egg is the cosmos at the moment of creation: an egg with a serpent coiled around it. Jacob Bryant printed it as an engraved plate in his <i>Analysis of Ancient Mythology</i> (1774), where the serpent stands for the creative spirit that warms the egg into life.</p>
+        <p>This lamp takes the image literally. The egg is the diffuser. The serpent wraps it three times, then leaves the glass and rises in a tightening spiral, its tail curling around the cable. Its head breaks away at the bottom and points out over the table.</p>
+        <p>Its skin carries 240 engraved motifs: stars, rosettes, leaf sprigs, sunbursts, crescents and spirals. They are generated, so no two segments repeat, and they are cut 0.55 mm deep into the printed parts, deep enough to hold a dark wash.</p>
+      </div>
+      <figure class="motif-strip">
+        <div class="band" id="motif-band" role="img" aria-label="A strip of the engraved motifs: stars, rosettes, sprigs and spirals."></div>
+        <figcaption>Fig. 2. A strip of the engraving, unrolled. One body circumference is 119 mm.</figcaption>
+        <img src="assets/closeup.jpg" width="1000" height="1250" alt="Close-up of the chrome serpent's engraved skin resting on the sand-frosted egg." loading="lazy" style="margin-top:.8rem; outline:1px solid var(--rule); outline-offset:-1px">
+        <figcaption>Fig. 3. The engraving under chrome, lamp off.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="plates" aria-labelledby="plates-h">
+    <div class="section-head">
+      <span class="eyebrow">renders</span>
+      <h2 id="plates-h">Four views and a room</h2>
+    </div>
+    <div class="plates">
+      <figure class="plate" style="--ar: .5625"><img src="assets/studio_off.jpg" width="900" height="1600" loading="lazy" alt="The lamp switched off: chrome serpent around a sand-coloured frosted egg."><figcaption>Fig. 4. Off. The diffuser reads as frosted amber glass.</figcaption></figure>
+      <figure class="plate" style="--ar: .8"><img src="assets/threeq_on.jpg" width="1000" height="1250" loading="lazy" alt="Three-quarter view from above of the lit lamp."><figcaption>Fig. 5. Three-quarter view from above, lit.</figcaption></figure>
+      <figure class="plate" style="--ar: .5625"><img src="assets/clay.jpg" width="900" height="1600" loading="lazy" alt="Grey clay render showing only the form of the lamp."><figcaption>Fig. 6. Clay study: the form alone.</figcaption></figure>
+      <figure class="plate wide" style="--ar: 1.778"><img src="assets/dining.jpg" width="1700" height="956" loading="lazy" alt="The lit lamp over a 200 by 100 cm oak dining table with seven chairs, blue-hour window behind."><figcaption>Fig. 7. Over a 200 × 100 cm table at blue hour. Lowest point 750 mm above the oak.</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="scale" aria-labelledby="scale-h">
+    <div class="scale">
+      <figure class="drawing">
+        <svg id="elevation" viewBox="-1500 -120 3000 3000" role="img" aria-labelledby="elev-t">
+          <title id="elev-t">Side elevation to scale: 2700 mm ceiling, 750 mm table, lamp hanging with its lowest point 750 mm above the table.</title>
+        </svg>
+        <figcaption>Fig. 8. Elevation, drawn to scale from the model. Dimensions in millimetres.</figcaption>
+      </figure>
+      <div class="copy">
+        <span class="eyebrow">in the room</span>
+        <h2 id="scale-h">Over the table</h2>
+        <p>A dining pendant hangs with its lowest point 700 to 850 mm above the tabletop: low enough to pool light on the table, high enough to see the person opposite. The serpent's snout is the lowest point of this lamp, and it sits at 750 mm.</p>
+        <ul class="rules">
+          <li><span>750 mm</span><span>Snout to tabletop. Adjust at the canopy's cord grip.</span></li>
+          <li><span>297 mm</span><span>Overall width. Suits a table 90–100 cm wide, roughly three times the lamp.</span></li>
+          <li><span>4–6 seats</span><span>One lamp for a table up to 200 cm. Above that, hang two, 80–90 cm apart.</span></li>
+          <li><span>ceiling − 1850</span><span>Visible cable length in mm. At a 2700 mm ceiling that is 850 mm.</span></li>
+          <li><span>≤ 8 W LED</span><span>About 800 lm, 2200–2700 K. Enough for the table without glare through the frosted shell.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="build" aria-labelledby="build-h">
+    <div class="section-head">
+      <span class="eyebrow">build guide</span>
+      <h2 id="build-h">Print, paint, assemble</h2>
+      <p class="muted">Press play to watch the whole build, or pick a step. Drag the model to turn it.</p>
+    </div>
+    <div class="build">
+      <ol class="steps" id="steps">
+        <li data-step="0"><button class="step-btn" type="button"><span class="step-num">1</span><span class="step-title">Print the parts</span>
+          <span class="step-body"><span>Twenty parts, each within a 256 mm bed. Serpent in PLA, diffuser in natural PETG with fuzzy skin for the sand-blasted look. Each serpent segment is exported with its hidden, egg-facing side down, so supports never touch the engraving.</span><span class="need">PLA ≈ 0.9 kg · PETG ≈ 0.8 kg · organic supports</span></span></button></li>
+        <li data-step="1"><button class="step-btn" type="button"><span class="step-num">2</span><span class="step-title">Assemble the egg</span>
+          <span class="step-body"><span>Glue the upper shell onto the lip of the lower band with clear epoxy. Test the bottom cap: push it up into the collar and turn 25° until the three lugs drop into their notches.</span><span class="need">EGG_A + EGG_B + EGG_C · clear 5-min epoxy</span></span></button></li>
+        <li data-step="2"><button class="step-btn" type="button"><span class="step-num">3</span><span class="step-title">Dry-fit the serpent</span>
+          <span class="step-body"><span>Fit S16 (the head) first and work up to S01. The saddle under each coil matches the egg, and two Ø3 mm dowels align every joint. Sand any saddle that rocks. Nothing is glued yet.</span><span class="need">28 × Ø3 × 16 mm dowels · 1 × Ø2 mm brass rod</span></span></button></li>
+        <li data-step="3"><button class="step-btn" type="button"><span class="step-num">4</span><span class="step-title">Fill, sand and prime</span>
+          <span class="step-body"><span>Paint every segment on its own, held on a dowel in its joint hole. Glazing putty on the layer lines, then high-build filler primer, wet-sanded to 1000 grit. Brush the dust out of the engraving.</span><span class="need">glazing putty · filler primer · 240–1000 grit</span></span></button></li>
+        <li data-step="4"><button class="step-btn" type="button"><span class="step-num">5</span><span class="step-title">Gloss black base</span>
+          <span class="step-body"><span>Mirror chrome copies whatever is under it, so the base must be a flawless gloss black. Let it cure fully, 24 to 48 hours.</span><span class="need">gloss black base · dust-free room</span></span></button></li>
+        <li data-step="5"><button class="step-btn" type="button"><span class="step-num">6</span><span class="step-title">Mirror chrome</span>
+          <span class="step-body"><span>Airbrush mirror chrome in mist coats at 15–18 psi until the black turns to metal. Do not touch it for a day, then handle with gloves.</span><span class="need">Alclad II Chrome, Spaz Stix Mirror Chrome or Molotow Liquid Chrome</span></span></button></li>
+        <li data-step="6"><button class="step-btn" type="button"><span class="step-num">7</span><span class="step-title">Darken the engraving</span>
+          <span class="step-body"><span>Flood a thin black-umber wash into the motifs and wipe the high points with a lint-free cloth, so the lines read dark against the mirror. Paint the eyes gloss black.</span><span class="need">acrylic or oil wash · gloss black enamel</span></span></button></li>
+        <li data-step="7"><button class="step-btn" type="button"><span class="step-num">8</span><span class="step-title">Wire the socket</span>
+          <span class="step-body"><span>Fit the M10 nipple through the boss at the top of the egg with a washer and nut on each side. Screw the E27 socket on from inside, through the bottom opening. Leave the cable's top end loose.</span><span class="need">E27 socket · M10 nipple, nuts, washers · cord grip · cable</span></span></button></li>
+        <li data-step="8"><button class="step-btn" type="button"><span class="step-num">9</span><span class="step-title">Seat the serpent</span>
+          <span class="step-body"><span>Glue the segments to the egg from the head up, with epoxy on each saddle and dowel. Thread the cable's loose end up through the spiral and the tail coil, slide the top cover down, and touch up the joints with a chrome pen.</span><span class="need">5-min epoxy · chrome paint pen · masking tape</span></span></button></li>
+        <li data-step="9"><button class="step-btn" type="button"><span class="step-num">10</span><span class="step-title">Hang it and fit the bulb</span>
+          <span class="step-body"><span>Have an electrician connect the canopy. Twist the bottom cap off, screw in the LED bulb, twist the cap back on, and switch on.</span><span class="need">canopy · E27 LED ≤ 8 W, 2700 K · ceiling hook ≥ 10 kg</span></span></button></li>
+      </ol>
+      <div class="stage-col">
+        <div class="stage" id="stage">
+          <canvas id="stage-canvas" aria-label="Interactive 3D model of the lamp. Drag to rotate, scroll or pinch to zoom."></canvas>
+          <div class="stage-label"><b id="stage-step" class="mono">10 / 10</b><span id="stage-title">Hang it and fit the bulb</span></div>
+          <div class="stage-hint">drag to turn · scroll to zoom</div>
+          <div class="stage-fallback" id="stage-fallback" hidden>
+            <img src="assets/print_kit.jpg" alt="All twenty printed parts laid out flat.">
+            <p class="muted">The 3D stage needs WebGL and an internet connection to load three.js. The steps on the left still describe the full build.</p>
+          </div>
+        </div>
+        <div class="progress" aria-hidden="true"><i id="progress"></i></div>
+        <div class="controls">
+          <button type="button" id="btn-prev" aria-label="Previous step"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.5 2 4.5 8l6 6z"/></svg></button>
+          <button type="button" class="primary" id="btn-play"><svg viewBox="0 0 16 16" aria-hidden="true" id="play-icon"><path d="M4 2.5v11l9-5.5z"/></svg><span id="play-label">Play the build</span></button>
+          <button type="button" id="btn-next" aria-label="Next step"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 2l6 6-6 6z"/></svg></button>
+          <span class="spacer"></span>
+          <button type="button" id="btn-light" aria-pressed="true">Light on</button>
+          <button type="button" id="btn-bulb">Change the bulb</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="paint" aria-labelledby="paint-h">
+    <div class="section-head">
+      <span class="eyebrow">finish</span>
+      <h2 id="paint-h">Paint schedule</h2>
+      <p class="muted">The serpent is finished segment by segment before it goes on the egg. The products named are examples that are known to work; any equivalent system does.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Stage</th><th>Product</th><th>How</th><th class="num">Before next</th></tr></thead>
+        <tbody>
+          <tr><td>Clean up</td><td>120 grit, flush cutters</td><td>Remove supports, flatten the saddles, dry-fit every joint with its dowels.</td><td class="num">–</td></tr>
+          <tr><td>Fill</td><td>2-part polyester glazing putty</td><td>Skim the layer lines on the visible side only, keep it out of the engraving. Sand 240 → 400.</td><td class="num">30 min</td></tr>
+          <tr><td>Prime</td><td>High-build filler primer</td><td>Three light coats. Wet sand 600 → 1000, then blow the engraving clear.</td><td class="num">24 h</td></tr>
+          <tr><td>Base</td><td>Gloss black base (enamel or 2K)</td><td>Two wet coats. Any orange peel will show through the chrome.</td><td class="num">24–48 h</td></tr>
+          <tr><td>Chrome</td><td>Alclad II Chrome, Spaz Stix Ultimate Mirror Chrome, Molotow Liquid Chrome</td><td>Airbrush, 15–18 psi, mist coats from 15 cm. Stop as soon as it turns to mirror.</td><td class="num">24 h</td></tr>
+          <tr><td>Wash</td><td>Black + burnt umber acrylic or oil, thinned</td><td>Flood the motifs, wipe the surface with a lint-free cloth across the lines.</td><td class="num">12 h</td></tr>
+          <tr><td>Eyes</td><td>Gloss black enamel, or 8 mm black glass cabochons</td><td>Fill the eye domes; cabochons glue on with clear epoxy.</td><td class="num">12 h</td></tr>
+          <tr><td>Seal <span class="sub">(optional)</span></td><td>Chrome-safe water-based gloss, e.g. Alclad Aqua Gloss</td><td>Protects against fingerprints. It slightly softens the mirror.</td><td class="num">24 h</td></tr>
+          <tr><td>Diffuser</td><td>Fuzzy skin in the slicer; Pébéo Vitrail amber (optional)</td><td>Fuzzy skin gives the frosted texture. For the amber tone, mist diluted glass paint outside. Test on an offcut first.</td><td class="num">24 h</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="parts" aria-labelledby="parts-h">
+    <div class="section-head">
+      <span class="eyebrow">bill of materials</span>
+      <h2 id="parts-h">Parts to print, parts to buy</h2>
+    </div>
+    <div class="two-col">
+      <figure class="kit">
+        <img src="assets/print_kit.jpg" width="1500" height="1373" loading="lazy" alt="All twenty printed parts laid out flat: three egg shells, a top cover and sixteen numbered serpent segments.">
+        <figcaption>Fig. 9. The kit, rendered from the exported STL files. Serpent segments numbered tail to head.</figcaption>
+      </figure>
+      <div>
+        <div class="facts" id="facts">
+          <div><b>20</b><span>printed parts</span></div>
+          <div><b>≤ 215 mm</b><span>largest serpent part</span></div>
+          <div><b>0</b><span>non-manifold edges</span></div>
+          <div><b>15</b><span>glued joints</span></div>
+        </div>
+        <h3>Hardware</h3>
+        <ul class="hw">
+          <li><span>1</span><span>E27 lamp holder, thermoplastic, M10×1 internal thread</span></li>
+          <li><span>1 set</span><span>M10×1 hollow lamp nipple, 30 mm, with 2 nuts and 2 Ø30 mm washers</span></li>
+          <li><span>2</span><span>M10×1 cord grip (strain relief): one at the egg, one in the canopy</span></li>
+          <li><span>1.5 m</span><span>Pendant cable, 2 × 0.75 mm², double insulated, white textile, Ø 5 mm</span></li>
+          <li><span>1</span><span>Ceiling canopy Ø 110 mm with terminal block</span></li>
+          <li><span>1</span><span>LED bulb E27, G95 or A60, ≤ 8 W, 2200–2700 K, frosted</span></li>
+          <li><span>28</span><span>Steel dowel pins Ø 3 × 16 mm</span></li>
+          <li><span>12 mm</span><span>Brass rod Ø 2 mm, for the thin tail joint S01–S02</span></li>
+          <li><span>–</span><span>5-minute epoxy, clear epoxy, medium CA glue, chrome paint pen</span></li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top: 2rem" class="table-wrap">
+      <table>
+        <thead><tr><th>File</th><th>Role</th><th class="num">Size on bed (mm)</th><th>Material</th><th class="num">Volume</th></tr></thead>
+        <tbody id="parts-body">
+          <tr><td colspan="5" class="muted">Loading the parts list…</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="margin-top:1rem">Print settings. Serpent: PLA, 0.12–0.16 mm layers, 3 walls, 12% gyroid, organic supports. Diffuser: PETG, 0.2 mm layers, 4 walls, fuzzy skin 0.25 mm thickness on outer walls, 5 mm brim. All files are in millimetres.</p>
+  </section>
+
+  <section id="bulb" aria-labelledby="bulb-h">
+    <div class="bulb">
+      <div class="section-head" style="margin:0">
+        <span class="eyebrow">maintenance</span>
+        <h2 id="bulb-h">Changing the bulb</h2>
+        <p>The bottom of the egg is a bayonet cap. It opens to a 120 mm hole, wide enough for a G95 bulb and a hand.</p>
+        <p style="margin-top:.8rem"><button type="button" class="bulb-play" id="btn-bulb-2">Show me on the model</button></p>
+      </div>
+      <div style="display:grid; gap:1.2rem">
+        <ol>
+          <li>Switch off at the wall and let the bulb cool for a few minutes.</li>
+          <li>Hold the cap from below, turn it 25° anticlockwise (seen from below) and lower it. Three lugs leave their slots.</li>
+          <li>Unscrew the old bulb through the opening and screw in the new one. E27, LED only, no more than 8 W.</li>
+          <li>Lift the cap into the collar, turn it 25° clockwise until it drops 1 mm into the lock, and let go.</li>
+        </ol>
+        <div class="note">
+          <h3>Safety</h3>
+          <p>Have a qualified electrician make the mains connections at the canopy and the socket. Use double-insulated cable and a cord grip at both ends; the cable carries the whole lamp. Fix the canopy to a ceiling hook or box rated for at least 10 kg. LED bulbs only: PETG softens around 75 °C.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="files" aria-labelledby="files-h">
+    <div class="section-head">
+      <span class="eyebrow">files</span>
+      <h2 id="files-h">The build files</h2>
+      <p class="muted">The STL print files, the Blender project and the scripts are not part of this preview; they will be available to buy. Everything is generated from one parametric script, so a change to a dimension in <span class="mono">lamp_geometry.py</span> rebuilds the model, the renders and every print file to match.</p>
+    </div>
+    <pre class="tree">cosmic_egg_lamp/
+├─ cosmic_egg_lamp.blend        <span class="c">scenes 01_Studio and 02_Dining, lamp lit</span>
+├─ OPEN_cosmic_egg_lamp.bat     <span class="c">opens the .blend in the bundled Blender 5.2</span>
+├─ renders/                     <span class="c">hero_on, studio_off, closeup, threeq_on, clay, dining, print_kit</span>
+├─ print_parts/                 <span class="c">20 STL files in mm + parts.json</span>
+│   ├─ EGG_A_upper_shell.stl    EGG_B_lower_band.stl    EGG_C_bottom_cap.stl
+│   ├─ TOP_COVER.stl
+│   └─ S01.stl … S16.stl        <span class="c">tail → head</span>
+├─ textures/engraving_lines.png
+├─ scripts/
+│   ├─ lamp_geometry.py         <span class="c">every dimension and the serpent's path</span>
+│   ├─ build_scene.py           <span class="c">materials, lights, cameras, renders</span>
+│   ├─ build_print_parts.py     <span class="c">cuts, dowel holes, bayonet, STL export</span>
+│   ├─ preview_print_kit.py
+│   └─ export_web.py            <span class="c">model and data for this page</span>
+└─ showcase/index.html          <span class="c">this page</span></pre>
+  </section>
+
+  <footer>
+    <span>The Cosmic Egg. After the Orphic egg in Jacob Bryant's <i>A New System, or, an Analysis of Ancient Mythology</i> (1774–76).</span>
+    <span>Dimensions are design values from the model; check fits with a test print before gluing.</span>
+  </footer>
+</div>
+
+<script src="assets/lamp_data.js"></script>
+<script src="assets/lamp_model.js"></script>
+<script>
+(function () {
+  "use strict";
+  var D = window.LAMP_DATA;
+  if (!D) return;
+
+  // motif band (engraving texture), ink-coloured in light mode, light in dark mode
+  var band = document.getElementById("motif-band");
+  var img = new Image();
+  img.onload = function () {
+    var c = document.createElement("canvas");
+    c.width = img.width; c.height = img.height;
+    var g = c.getContext("2d");
+    g.drawImage(img, 0, 0);
+    var px = g.getImageData(0, 0, c.width, c.height);
+    var ink = getComputedStyle(document.documentElement).getPropertyValue("--ink").trim();
+    var m = /^#([0-9a-f]{6})$/i.exec(ink);
+    var r = 31, gg = 28, b = 26;
+    if (m) { r = parseInt(m[1].slice(0, 2), 16); gg = parseInt(m[1].slice(2, 4), 16); b = parseInt(m[1].slice(4, 6), 16); }
+    for (var i = 0; i < px.data.length; i += 4) {
+      var a = px.data[i];
+      px.data[i] = r; px.data[i + 1] = gg; px.data[i + 2] = b; px.data[i + 3] = a;
+    }
+    g.putImageData(px, 0, 0);
+    band.style.backgroundImage = "url(" + c.toDataURL("image/png") + ")";
+  };
+  img.src = D.engraving;
+
+  // parts table
+  var tb = document.getElementById("parts-body");
+  var rows = D.parts.map(function (p) {
+    var role = p.notes;
+    var mm = /^Serpent \d+\/\d+: ([^;]+);/.exec(p.notes);
+    if (mm) role = "Serpent: " + mm[1];
+    else role = p.notes.split(". ")[0];
+    var size = p.size_mm.map(function (v) { return v.toFixed(0); }).join(" × ");
+    return "<tr><td class=\"num\">" + p.file + "</td><td>" + role + "</td><td class=\"num\">" + size +
+      "</td><td>" + p.material + "</td><td class=\"num\">" + p.volume_cm3.toFixed(0) + " cm³</td></tr>";
+  });
+  tb.innerHTML = rows.join("");
+
+  // elevation drawing, to scale in mm (y down, floor at 2750)
+  var svg = document.getElementById("elevation");
+  var M = D.metrics, Y = function (z) { return 2750 - z; };
+  var EZ = M.egg_centre_from_floor;
+  var out = [];
+  var line = function (x1, z1, x2, z2, cls, w) {
+    out.push('<line x1="' + x1 + '" y1="' + Y(z1) + '" x2="' + x2 + '" y2="' + Y(z2) + '" class="' + cls + '" stroke-width="' + (w || 4) + '"/>');
+  };
+  var text = function (x, z, s, anchor, cls, size) {
+    out.push('<text x="' + x + '" y="' + Y(z) + '" font-size="' + (size || 66) + '" text-anchor="' + (anchor || "start") + '" class="' + (cls || "") + '">' + s + "</text>");
+  };
+  var dimV = function (x, z1, z2, label, side) {
+    line(x, z1, x, z2, "soft", 3);
+    line(x - 22, z1, x + 22, z1, "soft", 3);
+    line(x - 22, z2, x + 22, z2, "soft", 3);
+    var tx = side === "left" ? x - 30 : x + 30;
+    text(tx, (z1 + z2) / 2 - 22, label, side === "left" ? "end" : "start");
+  };
+  // ceiling + floor
+  line(-1450, M.ceiling, 1450, M.ceiling, "ink", 6);
+  for (var hx = -1440; hx < 1450; hx += 70) line(hx, M.ceiling + 6, hx + 45, M.ceiling + 60, "hatch", 2);
+  line(-1450, 0, 1450, 0, "ink", 6);
+  for (hx = -1440; hx < 1450; hx += 70) line(hx, -6, hx + 45, -60, "hatch", 2);
+  // table, long side: 2000 x 750
+  out.push('<rect x="-1000" y="' + Y(M.table_top) + '" width="2000" height="35" class="fill-ink"/>');
+  [-860, 795].forEach(function (x) { out.push('<rect x="' + x + '" y="' + Y(715) + '" width="65" height="715" class="fill-ink"/>'); });
+  out.push('<rect x="-830" y="' + Y(715) + '" width="1660" height="80" class="fill-ink" opacity=".75"/>');
+  // chair at each end
+  [-1, 1].forEach(function (s) {
+    var x0 = s * 1130;
+    out.push('<path d="M' + (x0 - s * 210) + " " + Y(450) + " L" + (x0 + s * 210) + " " + Y(450) + " M" + (x0 - s * 190) + " " + Y(450) +
+      " L" + (x0 - s * 190) + " " + Y(0) + " M" + (x0 + s * 190) + " " + Y(0) + " L" + (x0 + s * 190) + " " + Y(820) +
+      " M" + (x0 + s * 190) + " " + Y(730) + " L" + (x0 + s * 120) + " " + Y(790) + '" class="soft" stroke-width="16" stroke-linecap="round" opacity=".55"/>');
+  });
+  // cable + canopy
+  line(0, EZ + 160, 0, M.ceiling, "ink", 6);
+  out.push('<rect x="-55" y="' + Y(M.ceiling) + '" width="110" height="30" class="fill-ink"/>');
+  // serpent back coils, egg, serpent front coils
+  var pts = D.outline;
+  var path = function (filter, cls) {
+    var d = "", pen = false;
+    for (var i = 0; i < pts.length; i++) {
+      var p = pts[i];
+      if (filter(p)) { d += (pen ? " L" : " M") + p[0].toFixed(1) + " " + Y(EZ + p[2]).toFixed(1); pen = true; }
+      else pen = false;
+    }
+    out.push('<path d="' + d + '" class="' + cls + '" stroke-width="' + M.body_d + '"/>');
+  };
+  path(function (p) { return p[1] > 0; }, "serpent-back");
+  var R0 = M.egg_R0, A = M.egg_A, HH = M.egg_h / 2, eg = "";
+  for (var k = 0; k <= 96; k++) {
+    var a = Math.PI * 2 * k / 96, t = -Math.cos(a), rr = R0 * Math.abs(Math.sin(a)) * (1 + A * t);
+    var x = (k <= 48 ? 1 : -1) * rr;
+    eg += (k ? " L" : "M") + x.toFixed(1) + " " + Y(EZ + HH * t).toFixed(1);
+  }
+  out.push('<path d="' + eg + ' Z" class="glass" stroke-width="4"/>');
+  path(function (p) { return p[1] <= 0; }, "serpent");
+  // dimensions
+  var low = EZ - M.low_below_centre, top = EZ + M.top_above_centre;
+  dimV(-1330, 0, M.table_top, "750");
+  dimV(-330, M.table_top, low, "750 clearance", "left");
+  dimV(330, low, top, M.overall_h + " lamp", "right");
+  dimV(1330, 0, M.ceiling, M.ceiling + " ceiling", "left");
+  dimV(330, EZ + 178, M.ceiling, (M.ceiling - EZ - 176).toFixed(0).replace(/\d$/, "0") + " cable", "right");
+  text(330, EZ - 30, "egg Ø " + M.egg_d + " × " + M.egg_h, "start", "lbl-strong", 60);
+  text(-1000, M.table_top + 70, "table 2000 × 1000", "start", "", 56);
+  svg.insertAdjacentHTML("beforeend", out.join(""));
+})();
+</script>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script>
+  // if the module below never starts (offline, no WebGL), show the still fallback
+  window.__stageTimer = setTimeout(function () {
+    if (!window.__stageReady) document.getElementById("stage-fallback").hidden = false;
+  }, 15000);
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+const D = window.LAMP_DATA;
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const stageEl = document.getElementById("stage");
+const canvas = document.getElementById("stage-canvas");
+
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+} catch (e) {
+  document.getElementById("stage-fallback").hidden = false;
+  throw e;
+}
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+const camera = new THREE.PerspectiveCamera(30, 1, 0.01, 30);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.enablePan = false;
+controls.minDistance = 0.35;
+controls.maxDistance = 3.5;
+
+const cssVar = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function applyTheme() { scene.background = new THREE.Color(cssVar("--stage") || "#cfcac4"); }
+applyTheme();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyTheme);
+new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0x3a3532, 0.7));
+const key = new THREE.DirectionalLight(0xfff2e6, 2.2);
+key.position.set(1.4, 2.2, 2.4);
+scene.add(key);
+const eggLight = new THREE.PointLight(0xffa864, 0, 4, 1.4);
+scene.add(eggLight);
+
+// halo sprite for the lit egg
+const haloCanvas = document.createElement("canvas");
+haloCanvas.width = haloCanvas.height = 128;
+{
+  const g = haloCanvas.getContext("2d");
+  const grd = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+  grd.addColorStop(0, "rgba(255,190,120,0.9)");
+  grd.addColorStop(0.35, "rgba(255,160,90,0.35)");
+  grd.addColorStop(1, "rgba(255,140,70,0)");
+  g.fillStyle = grd;
+  g.fillRect(0, 0, 128, 128);
+}
+const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(haloCanvas), transparent: true,
+  depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0 }));
+halo.scale.set(0.95, 1.15, 1);
+scene.add(halo);
+
+// print bed
+const [bedW, bedD] = D.bedSize;
+const bedMat = new THREE.MeshStandardMaterial({ color: 0x1b1b1e, roughness: 0.85, transparent: true, opacity: 1 });
+const bed = new THREE.Mesh(new THREE.BoxGeometry(bedW, 0.006, bedD), bedMat);
+bed.position.set(0, D.bedY - 0.003, 0);
+scene.add(bed);
+const grid = new THREE.GridHelper(Math.max(bedW, bedD), 24, 0x55524e, 0x34322f);
+grid.scale.set(bedW / Math.max(bedW, bedD), 1, bedD / Math.max(bedW, bedD));
+grid.position.set(0, D.bedY + 0.0005, 0);
+grid.material.transparent = true;
+scene.add(grid);
+
+// engraving textures: bump map, and an inverted copy used as the dark "wash"
+const engImg = new Image();
+const bumpTex = new THREE.Texture(engImg);
+const washCanvas = document.createElement("canvas");
+const washTex = new THREE.CanvasTexture(washCanvas);
+for (const t of [bumpTex, washTex]) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.flipY = false; }
+washTex.colorSpace = THREE.SRGBColorSpace;
+engImg.onload = () => {
+  bumpTex.needsUpdate = true;
+  washCanvas.width = engImg.width; washCanvas.height = engImg.height;
+  const g = washCanvas.getContext("2d");
+  g.drawImage(engImg, 0, 0);
+  const px = g.getImageData(0, 0, washCanvas.width, washCanvas.height);
+  for (let i = 0; i < px.data.length; i += 4) {
+    const v = 255 - px.data[i] * 0.85;
+    px.data[i] = v; px.data[i + 1] = v * 0.97; px.data[i + 2] = v * 0.94;
+  }
+  g.putImageData(px, 0, 0);
+  washTex.needsUpdate = true;
+};
+engImg.src = D.engraving;
+
+// materials and their finish states
+const serpMat = new THREE.MeshPhysicalMaterial({ bumpMap: bumpTex, bumpScale: 2, envMapIntensity: 1.9 });
+const eyeMat = new THREE.MeshPhysicalMaterial({});
+const eggMat = new THREE.MeshStandardMaterial({ color: 0xece6da, roughness: 0.6, transparent: true, opacity: 0.94,
+  emissive: new THREE.Color(0xff8f45), emissiveIntensity: 0 });
+const bulbMat = new THREE.MeshStandardMaterial({ color: 0xf4f1ea, roughness: 0.4, emissive: new THREE.Color(0xffc690), emissiveIntensity: 0 });
+const MATS = {
+  Hardware: new THREE.MeshStandardMaterial({ color: 0x121212, roughness: 0.5 }),
+  Metal: new THREE.MeshStandardMaterial({ color: 0xcfcac2, metalness: 1, roughness: 0.3 }),
+  Cable: new THREE.MeshStandardMaterial({ color: 0xece9e2, roughness: 0.75 }),
+};
+const FINISH = {
+  raw:    { c: "#8f9093", m: 0, r: 0.62, cc: 0, b: 2.2, wash: 0 },
+  primer: { c: "#c6c2bb", m: 0, r: 0.92, cc: 0, b: 1.8, wash: 0 },
+  black:  { c: "#0b0b0d", m: 0.1, r: 0.16, cc: 1, b: 1.8, wash: 0 },
+  chrome: { c: "#f5f5f5", m: 1, r: 0.07, cc: 0, b: 1.8, wash: 0 },
+  washed: { c: "#f5f5f5", m: 1, r: 0.09, cc: 0, b: 3.2, wash: 1 },
+  gloss:  { c: "#050505", m: 0.2, r: 0.05, cc: 1, b: 0, wash: 0 },
+};
+for (const k in FINISH) FINISH[k].col = new THREE.Color(FINISH[k].c);
+
+const state = { serp: { ...FINISH.washed, col: FINISH.washed.col.clone() }, eye: { ...FINISH.gloss, col: FINISH.gloss.col.clone() },
+  lit: 1, xray: 0, bed: 0 };
+function applyFinish(mat, f) {
+  mat.color.copy(f.col); mat.metalness = f.m; mat.roughness = f.r; mat.clearcoat = f.cc;
+  if (mat.bumpMap) mat.bumpScale = f.b;
+  const want = f.wash > 0.5 ? washTex : null;
+  if (mat.map !== want) { mat.map = want; mat.needsUpdate = true; }
+}
+function applyState() {
+  applyFinish(serpMat, state.serp);
+  applyFinish(eyeMat, state.eye);
+  eggMat.emissiveIntensity = state.lit * 0.95;
+  eggMat.color.setRGB(0.93 - state.lit * 0.43, 0.9 - state.lit * 0.52, 0.85 - state.lit * 0.6);
+  eggMat.opacity = 0.94 - state.xray * 0.66;
+  eggMat.depthWrite = state.xray < 0.3;
+  bulbMat.emissiveIntensity = state.lit * 2.5;
+  eggLight.intensity = state.lit * 2.4;
+  halo.material.opacity = state.lit * 0.8;
+  bedMat.opacity = state.bed;
+  grid.material.opacity = state.bed;
+  bed.visible = grid.visible = state.bed > 0.01;
+}
+
+const V = (x = 0, y = 0, z = 0) => new THREE.Vector3(x, y, z);
+const qY = (deg) => new THREE.Quaternion().setFromAxisAngle(V(0, 1, 0), (deg * Math.PI) / 180);
+const ease = (u) => (u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2);
+
+const parts = {}, home = {}, centroid = {}, bedPose = {};
+const SERP = D.serpent;
+const EGG = ["EGG_A", "EGG_B", "EGG_C"];
+const PRINTED = [...SERP, ...EGG, "TOP_COVER"];
+const HW = ["NIPPLE", "SOCKET", "CABLE", "CANOPY", "BULB"];
+const ALL = [...PRINTED, ...HW];
+
+function poseOf(n) { const m = parts[n]; return { p: m.position.clone(), q: m.quaternion.clone(), s: m.scale.clone(), v: m.visible }; }
+function homeP(n, dx = 0, dy = 0, dz = 0, rot = 0) {
+  const h = home[n];
+  return { p: h.p.clone().add(V(dx, dy, dz)), q: rot ? qY(rot).multiply(h.q) : h.q.clone(), s: h.s.clone(), v: true };
+}
+const hidden = (n) => ({ ...homeP(n), v: false });
+const bedP = (n) => (bedPose[n] ? { p: bedPose[n].p.clone(), q: bedPose[n].q.clone(), s: V(1, 1, 1), v: true } : hidden(n));
+function explodeP(n) {
+  if (n === "TOP_COVER") return homeP(n, 0, 0.2, 0);
+  const c = centroid[n];
+  const d = V(c.x, 0, c.z);
+  if (d.length() < 1e-3) d.set(0, 0, 1);
+  d.normalize();
+  return homeP(n, d.x * 0.17, c.y * 0.3 + 0.03, d.z * 0.17);
+}
+
+let STEPS = [];
+function defineSteps() {
+  const serpIdx = (n) => SERP.indexOf(n);
+  const headFirst = (n) => (serpIdx(n) >= 0 ? ((SERP.length - 1 - serpIdx(n)) / SERP.length) * 0.55 : 0);
+  STEPS = [
+    { title: "Print the parts", dur: 2.2, cam: { t: [0, D.bedY, 0.04], d: 1.75, az: 0, el: 60 },
+      serp: "raw", eye: "raw", lit: 0, xray: 0, bed: 1,
+      rest: (n) => (PRINTED.includes(n) ? bedP(n) : hidden(n)) },
+    { title: "Assemble the egg", dur: 2.8, cam: { t: [0, 0.0, 0], d: 1.35, az: -20, el: 14 },
+      serp: "raw", eye: "raw", lit: 0, xray: 0, bed: 1,
+      rest: (n) => (EGG.includes(n) ? homeP(n) : PRINTED.includes(n) ? bedP(n) : hidden(n)),
+      keys: (n) => ({ EGG_A: [[0.5, homeP("EGG_A", 0, 0.16, 0)]],
+                      EGG_C: [[0.45, homeP("EGG_C", 0, -0.14, 0, -25)], [0.75, homeP("EGG_C", 0, 0, 0, -25)]] })[n] },
+    { title: "Dry-fit the serpent", dur: 3.4, cam: { t: [0, 0.11, 0], d: 1.8, az: 18, el: 10 },
+      serp: "raw", eye: "raw", lit: 0, xray: 0, bed: 0,
+      rest: (n) => (HW.includes(n) ? hidden(n) : homeP(n)), delay: headFirst, span: 0.45 },
+    { title: "Fill, sand and prime", dur: 2.4, cam: { t: [0, 0.12, 0], d: 2.15, az: 24, el: 12 },
+      serp: "primer", eye: "primer", lit: 0, xray: 0, bed: 0,
+      rest: (n) => (HW.includes(n) ? hidden(n) : SERP.includes(n) || n === "TOP_COVER" ? explodeP(n) : homeP(n)) },
+    { title: "Gloss black base", dur: 2.0, cam: { t: [0, 0.12, 0], d: 2.15, az: 40, el: 12 },
+      serp: "black", eye: "black", lit: 0, xray: 0, bed: 0,
+      rest: (n) => (HW.includes(n) ? hidden(n) : SERP.includes(n) || n === "TOP_COVER" ? explodeP(n) : homeP(n)) },
+    { title: "Mirror chrome", dur: 2.2, cam: { t: [0, 0.12, 0], d: 2.1, az: 58, el: 14 },
+      serp: "chrome", eye: "chrome", lit: 0, xray: 0, bed: 0,
+      rest: (n) => (HW.includes(n) ? hidden(n) : SERP.includes(n) || n === "TOP_COVER" ? explodeP(n) : homeP(n)) },
+    { title: "Darken the engraving", dur: 2.2, cam: { t: [0.06, 0.06, 0.12], d: 1.0, az: 30, el: 6 },
+      serp: "washed", eye: "gloss", lit: 0, xray: 0, bed: 0,
+      rest: (n) => (HW.includes(n) ? hidden(n) : SERP.includes(n) || n === "TOP_COVER" ? explodeP(n) : homeP(n)) },
+    { title: "Wire the socket", dur: 2.8, cam: { t: [0, 0.2, 0], d: 2.0, az: -14, el: 8 },
+      serp: "washed", eye: "gloss", lit: 0, xray: 1, bed: 0,
+      rest: (n) => (n === "BULB" ? hidden(n) : SERP.includes(n) || n === "TOP_COVER" ? explodeP(n) : homeP(n)),
+      appear: (n, to) => n === "SOCKET" ? { ...to, p: to.p.clone().add(V(0, -0.32, 0)) }
+        : n === "CABLE" ? { ...to, s: V(1, 0.001, 1) } : { ...to, p: to.p.clone().add(V(0, 0.3, 0)) } },
+    { title: "Seat the serpent", dur: 3.4, cam: { t: [0, 0.12, 0], d: 1.85, az: 16, el: 8 },
+      serp: "washed", eye: "gloss", lit: 0, xray: 0, bed: 0,
+      rest: (n) => (n === "BULB" ? hidden(n) : homeP(n)), delay: headFirst, span: 0.45 },
+    { title: "Hang it and fit the bulb", dur: 5.2, cam: { t: [0, 0.1, 0], d: 1.75, az: 22, el: 4 },
+      serp: "washed", eye: "gloss", lit: 1, xray: 0, bed: 0,
+      rest: (n) => homeP(n),
+      keys: (n, from) => {
+        if (n === "EGG_C") return [[0.1, homeP(n, 0, 0, 0, -25)], [0.22, homeP(n, 0, -0.07, 0, -25)],
+          [0.32, homeP(n, 0.2, -0.13, 0, -25)], [0.62, homeP(n, 0.2, -0.13, 0, -25)], [0.72, homeP(n, 0, -0.07, 0, -25)],
+          [0.8, homeP(n, 0, 0, 0, -25)]];
+        if (n === "BULB") {
+          const below = homeP(n, 0, -0.34, 0);
+          return from.v ? [[0.3, homeP(n)], [0.38, below], [0.44, below], [0.54, homeP(n, 0, 0, 0, 720)]]
+                        : [[0.38, below], [0.44, below], [0.54, homeP(n, 0, 0, 0, 720)]];
+        }
+      },
+      scalarKeys: { lit: (v) => [[0.06, 0], [0.84, 0], [1, 1]], xray: (v) => [[0.12, 0.65], [0.78, 0.65], [0.9, 0]] } },
+  ];
+}
+
+let current = 9, anim = null, playing = false, holdTimer = null;
+const stepEls = [...document.querySelectorAll("#steps li")];
+const progressEl = document.getElementById("progress");
+
+function sphericalNow() {
+  const t = controls.target.clone();
+  const v = camera.position.clone().sub(t);
+  const d = v.length();
+  return { t, d, el: Math.asin(v.y / d), az: Math.atan2(v.x, v.z) };
+}
+function placeCamera(t, d, az, el) {
+  controls.target.copy(t);
+  camera.position.set(t.x + d * Math.cos(el) * Math.sin(az), t.y + d * Math.sin(el), t.z + d * Math.cos(el) * Math.cos(az));
+  camera.lookAt(t);
+}
+
+function goStep(i, opts = {}) {
+  clearTimeout(holdTimer);
+  const st = STEPS[i];
+  const dur = reduced || opts.instant ? 0.0001 : st.dur;
+  const tracks = {};
+  for (const n of ALL) {
+    const from = poseOf(n);
+    const to = st.rest(n);
+    const keys = (st.keys && st.keys(n, from)) || [];
+    let appearAt = 0;
+    if (!from.v && to.v) {
+      const start = keys.length ? keys[0][1] : st.appear ? st.appear(n, to) : { ...to, p: to.p.clone().add(V(0, 0.3, 0)) };
+      from.p = start.p.clone(); from.q = start.q.clone(); from.s = start.s.clone();
+      appearAt = keys.length ? keys[0][0] : 0;
+    }
+    tracks[n] = { from, to, keys, appearAt, delay: st.delay ? st.delay(n) : 0, span: st.span || 1 };
+  }
+  const sFrom = { serp: { ...state.serp, col: state.serp.col.clone() }, eye: { ...state.eye, col: state.eye.col.clone() },
+    lit: state.lit, xray: state.xray, bed: state.bed };
+  const cam0 = sphericalNow();
+  const cam1 = { t: V(...st.cam.t), d: st.cam.d, az: (st.cam.az * Math.PI) / 180, el: (st.cam.el * Math.PI) / 180 };
+  let daz = cam1.az - cam0.az;
+  daz = Math.atan2(Math.sin(daz), Math.cos(daz));
+  anim = { i, t0: performance.now(), dur: dur * 1000, tracks, sFrom, st, cam0, cam1, daz, keepCam: !!opts.keepCam };
+  current = i;
+  stepEls.forEach((el, k) => {
+    el.classList.toggle("active", k === i);
+    el.querySelector("button").setAttribute("aria-current", k === i ? "step" : "false");
+  });
+  document.getElementById("stage-step").textContent = String(i + 1).padStart(2, "0") + " / " + STEPS.length;
+  document.getElementById("stage-title").textContent = st.title;
+}
+
+function scalarAt(keys, from, to, u) {
+  const fr = [[0, from], ...(keys || []), [1, to]];
+  let k = 0;
+  while (k < fr.length - 2 && u > fr[k + 1][0]) k++;
+  const [ta, a] = fr[k], [tb, b] = fr[k + 1];
+  const w = tb > ta ? ease(Math.min(1, Math.max(0, (u - ta) / (tb - ta)))) : 1;
+  return a + (b - a) * w;
+}
+function lerpFinish(dst, a, b, w) {
+  dst.col.copy(a.col).lerp(b.col, w);
+  dst.m = a.m + (b.m - a.m) * w; dst.r = a.r + (b.r - a.r) * w; dst.cc = a.cc + (b.cc - a.cc) * w;
+  dst.b = a.b + (b.b - a.b) * w; dst.wash = a.wash + (b.wash - a.wash) * w;
+}
+
+function tick(now) {
+  if (!anim) return;
+  const T = Math.min(1, (now - anim.t0) / anim.dur);
+  for (const n of ALL) {
+    const tr = anim.tracks[n], m = parts[n];
+    const u = Math.min(1, Math.max(0, (T - tr.delay) / tr.span));
+    const fr = [[0, tr.from], ...tr.keys, [1, tr.to]];
+    let k = 0;
+    while (k < fr.length - 2 && u > fr[k + 1][0]) k++;
+    const [ta, A] = fr[k], [tb, B] = fr[k + 1];
+    const w = tb > ta ? ease(Math.min(1, Math.max(0, (u - ta) / (tb - ta)))) : 1;
+    m.position.lerpVectors(A.p, B.p, w);
+    m.quaternion.slerpQuaternions(A.q, B.q, w);
+    m.scale.lerpVectors(A.s, B.s, w);
+    if (!tr.from.v && !tr.to.v) m.visible = false;
+    else m.visible = (tr.from.v || u >= tr.appearAt) && (tr.to.v || u < 1);
+  }
+  const st = anim.st, f = anim.sFrom, wm = ease(Math.min(1, T / 0.7));
+  lerpFinish(state.serp, f.serp, FINISH[st.serp], wm);
+  lerpFinish(state.eye, f.eye, FINISH[st.eye], wm);
+  const sk = st.scalarKeys || {};
+  state.lit = scalarAt(sk.lit && sk.lit(f.lit), f.lit, st.lit, T);
+  state.xray = scalarAt(sk.xray && sk.xray(f.xray), f.xray, st.xray, T);
+  state.bed = f.bed + (st.bed - f.bed) * ease(T);
+  applyState();
+  if (!anim.keepCam) {
+    const wc = ease(Math.min(1, T / 0.85));
+    const c0 = anim.cam0, c1 = anim.cam1;
+    placeCamera(c0.t.clone().lerp(c1.t, wc), c0.d + (c1.d - c0.d) * wc, c0.az + anim.daz * wc, c0.el + (c1.el - c0.el) * wc);
+  }
+  progressEl.style.width = ((current + T) / STEPS.length) * 100 + "%";
+  if (T >= 1) {
+    anim = null;
+    syncLightButton();
+    if (playing) {
+      if (current < STEPS.length - 1) holdTimer = setTimeout(() => goStep(current + 1), 1600);
+      else setPlaying(false);
+    }
+  }
+}
+
+const playBtn = document.getElementById("btn-play"), playLabel = document.getElementById("play-label"), playIcon = document.getElementById("play-icon");
+function setPlaying(p) {
+  playing = p;
+  playLabel.textContent = p ? "Pause" : current === STEPS.length - 1 ? "Play the build" : "Play";
+  playIcon.innerHTML = p ? '<path d="M3.5 2.5h3.2v11H3.5zM9.3 2.5h3.2v11H9.3z"/>' : '<path d="M4 2.5v11l9-5.5z"/>';
+  if (!p) clearTimeout(holdTimer);
+}
+playBtn.addEventListener("click", () => {
+  if (playing) { setPlaying(false); return; }
+  setPlaying(true);
+  if (!anim) goStep(current === STEPS.length - 1 ? 0 : current + 1);
+});
+document.getElementById("btn-prev").addEventListener("click", () => { setPlaying(false); goStep(Math.max(0, current - 1)); });
+document.getElementById("btn-next").addEventListener("click", () => { setPlaying(false); goStep(Math.min(STEPS.length - 1, current + 1)); });
+stepEls.forEach((el, k) => el.querySelector("button").addEventListener("click", () => { setPlaying(false); goStep(k); }));
+const lightBtn = document.getElementById("btn-light");
+function syncLightButton() {
+  const on = state.lit > 0.5;
+  lightBtn.setAttribute("aria-pressed", String(on));
+  lightBtn.textContent = on ? "Light on" : "Light off";
+}
+let lightTween = null;
+lightBtn.addEventListener("click", () => {
+  const target = state.lit > 0.5 ? 0 : 1;
+  lightTween = { from: state.lit, to: target, t0: performance.now() };
+  lightBtn.setAttribute("aria-pressed", String(target === 1));
+  lightBtn.textContent = target ? "Light on" : "Light off";
+});
+function bulbDemo() {
+  setPlaying(false);
+  goStep(STEPS.length - 1);
+}
+document.getElementById("btn-bulb").addEventListener("click", bulbDemo);
+document.getElementById("btn-bulb-2").addEventListener("click", () => {
+  document.getElementById("build").scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+  bulbDemo();
+});
+
+function resize() {
+  const r = stageEl.getBoundingClientRect();
+  if (!r.width || !r.height) return;
+  renderer.setSize(r.width, r.height, false);
+  camera.aspect = r.width / r.height;
+  camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(stageEl);
+
+let visible = true;
+new IntersectionObserver((e) => { visible = e[0].isIntersecting; }, { rootMargin: "100px" }).observe(stageEl);
+function loop(now) {
+  requestAnimationFrame(loop);
+  if (!visible) return;
+  tick(now);
+  if (lightTween && !anim) {
+    const w = Math.min(1, (now - lightTween.t0) / 600);
+    state.lit = lightTween.from + (lightTween.to - lightTween.from) * ease(w);
+    applyState();
+    if (w >= 1) lightTween = null;
+  }
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+const bin = Uint8Array.from(atob(window.LAMP_GLB), (c) => c.charCodeAt(0));
+new GLTFLoader().parse(bin.buffer, "", (gltf) => {
+  const root = gltf.scene;
+  scene.add(root);
+  root.traverse((o) => {
+    if (!o.isMesh) return;
+    parts[o.name] = o;
+  });
+  // the cable grows upward from the egg: put its origin at its base
+  const cable = parts.CABLE;
+  cable.geometry.computeBoundingBox();
+  const base = cable.geometry.boundingBox.min.y;
+  cable.geometry.translate(0, -base, 0);
+  cable.position.y += base;
+  // eyes ride on the head segment
+  const eyes = parts.EYES, head = parts[SERP[SERP.length - 1]];
+  head.add(eyes);
+  for (const n of ALL) {
+    const m = parts[n];
+    home[n] = { p: m.position.clone(), q: m.quaternion.clone(), s: m.scale.clone() };
+    m.geometry.computeBoundingBox();
+    centroid[n] = m.geometry.boundingBox.getCenter(V());
+  }
+  for (const n of SERP) parts[n].material = serpMat;
+  parts.TOP_COVER.material = serpMat;
+  eyes.material = eyeMat;
+  for (const n of EGG) parts[n].material = eggMat;
+  parts.BULB.material = bulbMat;
+  parts.SOCKET.material = MATS.Hardware;
+  parts.NIPPLE.material = MATS.Metal;
+  parts.CANOPY.material = MATS.Metal;
+  parts.CABLE.material = MATS.Cable;
+  for (const n in D.bed) {
+    const m4 = new THREE.Matrix4().fromArray(D.bed[n]);
+    const p = V(), q = new THREE.Quaternion(), s = V();
+    m4.decompose(p, q, s);
+    bedPose[n] = { p, q };
+  }
+  defineSteps();
+  // open on the finished, lit lamp
+  for (const n of ALL) parts[n].visible = true;
+  applyState();
+  placeCamera(V(0, 0.1, 0), 1.75, (22 * Math.PI) / 180, (4 * Math.PI) / 180);
+  goStep(9, { instant: true });
+  resize();
+  window.__stageReady = true;
+  clearTimeout(window.__stageTimer);
+  document.getElementById("stage-fallback").hidden = true;
+  requestAnimationFrame(loop);
+}, (err) => {
+  console.error(err);
+  document.getElementById("stage-fallback").hidden = false;
+});
+</script>
+
+</body>
+</html>
