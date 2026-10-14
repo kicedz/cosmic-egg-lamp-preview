@@ -56,6 +56,16 @@ main { position: relative; z-index: 1; }
 .nav nav { display: flex; gap: clamp(1rem, 2.4vw, 2rem); font-size: .9rem; }
 .nav nav a { color: var(--ink-2); text-decoration: none; }
 .nav nav a:hover { color: var(--ink); }
+.nav-right { display: flex; align-items: center; gap: clamp(1rem, 2.4vw, 2rem); }
+.sound { display: inline-flex; align-items: center; gap: .45rem; font: 500 .85rem/1 var(--font); color: var(--ink-2);
+  background: transparent; border: 1px solid var(--rule); border-radius: 999px; padding: .42rem .8rem .42rem .62rem; cursor: pointer;
+  transition: color .3s ease, border-color .3s ease; }
+.sound:hover { color: var(--ink); border-color: rgba(245, 242, 238, .3); }
+.sound svg { width: 17px; height: 17px; }
+.sound .waves { display: none; }
+.sound[aria-pressed="true"] { color: var(--glow); border-color: rgba(255, 176, 102, .45); }
+.sound[aria-pressed="true"] .waves { display: inline; }
+.sound[aria-pressed="true"] .mute { display: none; }
 @media (max-width: 560px) { .nav nav { display: none; } }
 
 /* scroll chapters */
@@ -206,12 +216,22 @@ footer p { color: #6f6a64; }
 
 <header class="nav">
   <a class="brand" href="#top">The Cosmic Egg</a>
-  <nav aria-label="Chapters">
-    <a href="#design">Design</a>
-    <a href="#build">Build</a>
-    <a href="#room">Room</a>
-    <a href="#specs">Specs</a>
-  </nav>
+  <div class="nav-right">
+    <nav aria-label="Chapters">
+      <a href="#design">Design</a>
+      <a href="#build">Build</a>
+      <a href="#room">Room</a>
+      <a href="#specs">Specs</a>
+    </nav>
+    <button class="sound" id="sound" type="button" aria-pressed="false" aria-label="Turn ambient sound on">
+      <svg viewBox="0 0 20 20" aria-hidden="true">
+        <path d="M3 7.5h3l4-3.5v12l-4-3.5H3z" fill="currentColor"/>
+        <path class="waves" d="M13 7.2a4 4 0 0 1 0 5.6M15.2 5a7 7 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path class="mute" d="M13.2 7.6l4.6 4.8M17.8 7.6l-4.6 4.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <span>Sound</span>
+    </button>
+  </div>
 </header>
 
 <main>
@@ -517,19 +537,187 @@ footer p { color: #6f6a64; }
 
   function frame(now) {
     requestAnimationFrame(frame);
-    var y = scrollY, best = null, bestOv = 0;
+    var y = scrollY, best = null, bestOv = 0, here = null, hereOv = 0;
     for (var i = 0; i < scenes.length; i++) {
       var s = scenes[i];
       s.p = clamp((y - s.top) / Math.max(1, s.h - vh));
       var ov = Math.min(y + vh, s.top + s.h) - Math.max(y, s.top);
       if (s.is3d && ov > bestOv) { bestOv = ov; best = s; }
+      if (ov > hereOv) { hereOv = ov; here = s; }
       if (ov > -vh * 0.25 && H[s.name]) H[s.name](s.p, s.el);
     }
     var load = lit0 === null ? 0 : reduced ? 1 : seg((now - lit0) / 1900, 0, 1);
     if (lit0 !== null) root.style.setProperty("--lit", (load * (1 - seg(scenes[0].p, 0.3, 0.6))).toFixed(3));
     if (window.__lamp3d) window.__lamp3d.update(best ? stateFor(best) : null, load, vw, vh);
+    if (window.__ambient && here) window.__ambient.mood(here.name, here.p);
   }
   requestAnimationFrame(frame);
+})();
+</script>
+<script>
+// Ambient score, generated live with the Web Audio API. Nothing plays until the visitor presses Sound.
+(function () {
+  "use strict";
+  var btn = document.getElementById("sound");
+  var AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) { btn.hidden = true; return; }
+
+  // D major / lydian colour: Dmaj9, Bm11, Gmaj7#11, A6/9 (Hz)
+  var CHORDS = [
+    [146.83, 220.0, 277.18, 329.63, 369.99],
+    [123.47, 185.0, 220.0, 293.66, 329.63],
+    [98.0, 146.83, 185.0, 246.94, 277.18],
+    [110.0, 164.81, 246.94, 277.18, 369.99]
+  ];
+  var BELLS = [587.33, 659.25, 739.99, 880.0, 987.77, 1174.66, 1318.51, 1479.98];
+  // per chapter: low-pass cutoff (how open the pad sounds) and chime density
+  var MOODS = {
+    hero: [1600, 0.35], statement: [1200, 0.2], orbit: [2000, 0.45], expand: [1500, 0.35],
+    explode: [2300, 0.9], finish: [1200, 0.4], room: [1100, 0.15], drawing: [800, 0.05],
+    bulb: [1300, 0.3], gallery: [1400, 0.25], closing: [1800, 0.5]
+  };
+  var ctx = null, on = false, master, lp, pad, verb, chimeBus, ci = 0, chordTimer = null, chimeTimer = null;
+  var mood = { cut: 1300, chime: 0.3 };
+
+  function impulse(secs, decay) {
+    var n = Math.floor(ctx.sampleRate * secs), b = ctx.createBuffer(2, n, ctx.sampleRate);
+    for (var c = 0; c < 2; c++) {
+      var d = b.getChannelData(c);
+      for (var i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, decay);
+    }
+    return b;
+  }
+
+  function build() {
+    ctx = new AC();
+    master = ctx.createGain();
+    master.gain.value = 0;
+    var comp = ctx.createDynamicsCompressor();
+    comp.threshold.value = -20; comp.knee.value = 18; comp.ratio.value = 3;
+    master.connect(comp);
+    comp.connect(ctx.destination);
+    verb = ctx.createConvolver();
+    verb.buffer = impulse(5.5, 2.4);
+    var wet = ctx.createGain();
+    wet.gain.value = 0.6;
+    verb.connect(wet);
+    wet.connect(master);
+    lp = ctx.createBiquadFilter();
+    lp.type = "lowpass"; lp.frequency.value = mood.cut; lp.Q.value = 0.5;
+    var dry = ctx.createGain();
+    dry.gain.value = 0.5;
+    lp.connect(dry);
+    dry.connect(master);
+    lp.connect(verb);
+    pad = ctx.createGain();
+    pad.connect(lp);
+    var lfo = ctx.createOscillator(), lfoGain = ctx.createGain();   // the filter breathes slowly
+    lfo.frequency.value = 0.045; lfoGain.gain.value = 260;
+    lfo.connect(lfoGain);
+    lfoGain.connect(lp.frequency);
+    lfo.start();
+    [[36.71, 0.05], [73.42, 0.06]].forEach(function (d) {          // low D drone
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = "sine"; o.frequency.value = d[0]; g.gain.value = d[1];
+      o.connect(g);
+      g.connect(pad);
+      o.start();
+    });
+    chimeBus = ctx.createGain();
+    chimeBus.connect(verb);
+    var chimeDry = ctx.createGain();
+    chimeDry.gain.value = 0.22;
+    chimeBus.connect(chimeDry);
+    chimeDry.connect(master);
+  }
+
+  function panned(node, value, dest) {
+    if (ctx.createStereoPanner) {
+      var p = ctx.createStereoPanner();
+      p.pan.value = value;
+      node.connect(p);
+      p.connect(dest);
+    } else node.connect(dest);
+  }
+
+  function chord() {
+    var t = ctx.currentTime, notes = CHORDS[ci++ % CHORDS.length];
+    notes.forEach(function (f, i) {
+      [-6, 6].forEach(function (det, j) {
+        var o = ctx.createOscillator(), g = ctx.createGain(), peak = 0.016 / (1 + i * 0.15);
+        o.type = j ? "triangle" : "sine"; o.frequency.value = f; o.detune.value = det;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.linearRampToValueAtTime(peak, t + 6);
+        g.gain.setValueAtTime(peak, t + 13);
+        g.gain.linearRampToValueAtTime(0.0001, t + 21);
+        o.connect(g);
+        panned(g, j ? 0.35 : -0.35, pad);
+        o.start(t);
+        o.stop(t + 21.5);
+      });
+    });
+  }
+
+  function chime() {
+    var t = ctx.currentTime + 0.02, f = BELLS[Math.floor(Math.random() * BELLS.length)], g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.028, t + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 4.5);
+    [[1, 1], [2.76, 0.25], [5.4, 0.08]].forEach(function (h) {          // bell-like partials
+      var o = ctx.createOscillator(), hg = ctx.createGain();
+      o.type = "sine"; o.frequency.value = f * h[0]; hg.gain.value = h[1];
+      o.connect(hg);
+      hg.connect(g);
+      o.start(t);
+      o.stop(t + 4.6);
+    });
+    panned(g, Math.random() * 1.4 - 0.7, chimeBus);
+  }
+
+  function schedule() {
+    stopTimers();
+    (function nextChord() { chord(); chordTimer = setTimeout(nextChord, 14000); })();
+    (function nextChime() { chime(); chimeTimer = setTimeout(nextChime, (1600 + Math.random() * 5200) * (1.3 - mood.chime)); })();
+  }
+  function stopTimers() { clearTimeout(chordTimer); clearTimeout(chimeTimer); }
+
+  function setOn(next) {
+    on = next;
+    btn.setAttribute("aria-pressed", String(on));
+    btn.setAttribute("aria-label", on ? "Turn ambient sound off" : "Turn ambient sound on");
+    if (on) {
+      if (!ctx) build();
+      ctx.resume();
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setTargetAtTime(1.4, ctx.currentTime, 1.4);   // about -21 dBFS RMS: soft background level
+      schedule();
+    } else if (ctx) {
+      stopTimers();
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setTargetAtTime(0, ctx.currentTime, 0.35);
+      setTimeout(function () { if (!on) ctx.suspend(); }, 1600);
+    }
+  }
+  btn.addEventListener("click", function () { setOn(!on); });
+
+  document.addEventListener("visibilitychange", function () {
+    if (!ctx || !on) return;
+    if (document.hidden) { stopTimers(); ctx.suspend(); }
+    else { ctx.resume(); schedule(); }
+  });
+
+  window.__ambient = {
+    mood: function (name, p) {
+      var m = MOODS[name];
+      if (!m || !ctx || !on) return;
+      var cut = name === "finish" ? 1200 + 1400 * p : m[0];
+      mood.chime = m[1];
+      if (Math.abs(cut - mood.cut) > 40) {
+        mood.cut = cut;
+        lp.frequency.setTargetAtTime(cut, ctx.currentTime, 1.2);
+      }
+    }
+  };
 })();
 </script>
 <script type="importmap">
